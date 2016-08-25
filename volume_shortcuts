@@ -1,0 +1,10 @@
+ # #http://unix.stackexchange.com/questions/32206/set-volume-from-terminal
+ # increase by 3%
+amixer -q sset Master 3%+
+
+# decrease by 3%
+amixer -q sset Master 3%-
+
+# mute/unmute
+amixer -q sset Master toggle
+
