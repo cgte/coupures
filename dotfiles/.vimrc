@@ -30,6 +30,15 @@ nnoremap <leader><space> :nohlsearch<CR>
 autocmd BufWritePost *.py call Flake8()
 
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-autocmd BufWritePre * %s/\s\+$//e
+fun! StripTrailingWhitespace()
+    " Don't strip on these filetypes
+    if &ft =~ 'diff'
+        return
+    endif
+    %s/\s\+$//e
+endfun
+
+autocmd BufWritePre * call StripTrailingWhitespace()
+
 
 
