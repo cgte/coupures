@@ -8,12 +8,42 @@
 	ui = auto
 [alias]
 	st = status
-	ci = commit
+    ci = commit
+    co = checkout
+    cm = checkout master
+    back = checkout -
+
+    um = ! git cm && git pull && git push
+
 	lg = log --graph --date=relative --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'
 	oops = commit --amend --no-edit
+    tip = show --summary
 	review-local = "!git lg @{push}.."
 	# Or pre 2.5, as we didn't differential push and upstream in shorthands:
 	# review-local = lg @{upstream}..
+    nm = "! f() { git branch --no-merged ${1-master}; } ;  f | cut -c 3-"
+    #$([ ! -z $1 ] && echo "$1" || echo "master")
+    # git branch --no-merged
+    do = ! git diff origin/`git branch | grep '*' | cut -c  3-`
+    #comprare with remote counterpart
+    dm = diff master
+
+    rm-merged = !  git branch --merged master | cut -c 3- | grep -v '^master' | xargs git branch -d
+    # remove branches that are merged in master
+
+    prp = ! git pull && git um && git back && git rp
+    #Pulls master then checkout back the working branch
+    rp = ! git r && git push -f
+    r = rebase master
+    integrate = "! git prp && git checkout master && git merge --no-ff - "
+
+    #integrate = "! git checkout master && git pull ; git checkout - && git r && git checkout master && git merge --no-ff - "
+
+    #Rebase and push #Should be in a function to check to specify explicitely
+    #integrate = ! git prp && git checkout master && git merge -
+    #&& git push master
+
+
 [core]
 	# Don't paginate output by default
 	pager = cat
@@ -58,7 +88,8 @@
 	follow = true
 [merge]
 	# Display common-ancestor blocks in conflict hunks
-	conflictStyle = diff3
+    conflictStyle = diff3
+    tool = meld
 [mergetool]
 	# Clean up backup files created by merge tools on tool exit
 	keepBackup = false
@@ -77,13 +108,13 @@
 	rebase = preserve
 [push]
 	# Default push should only push the current branch to its push target, regardless of its remote name
-	default = upstream
+	default = current
 	# When pushing, also push tags whose commit-ishs are now reachable upstream
 	followTags = true
 [rerere]
 	# If, like me, you like rerere, uncomment these
-	# autoupdate = true
-	# enabled = true
+	autoupdate = true
+	enabled = true
 [status]
 	# Display submodule rev change summaries in status
 	submoduleSummary = true
@@ -101,4 +132,5 @@
 	prereleaseSuffix = -beta
 	prereleaseSuffix = .beta
 	prereleaseSuffix = -rc
-	prereleaseSuffix = .rc
+    prereleaseSuffix = .rc
+
