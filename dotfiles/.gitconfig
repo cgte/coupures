@@ -10,10 +10,25 @@
 	st = status
     ci = commit
     co = checkout
+    di = diff
+
     cm = checkout master
+    dm = diff master
+
     back = checkout -
 
-    um = ! git cm && git pull && git push
+    dnom = diff --name-only master
+    # Personal, i use dm for a more time than dno.
+    dmno = diff --name-only master
+
+    dno = diff --name-only
+
+
+    um = ! git checkout master && git pull && git push
+    umrp = ! git um && git back && git rp
+
+    aaq = commit --amend --no-edit -a # Amend all quiet
+    fixup = aaq
 
 	lg = log --graph --date=relative --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%an %ad)%Creset'
 	oops = commit --amend --no-edit
