@@ -36,21 +36,22 @@
 	review-local = "!git lg @{push}.."
 	# Or pre 2.5, as we didn't differential push and upstream in shorthands:
 	# review-local = lg @{upstream}..
-    nm = "! f() { git branch --no-merged ${1-master}; } ;  f | cut -c 3-"
+    nm = "! f() { git branch -r --no-merged ${1-master}; } ;  f | cut -c 3- | sed 's:^origin/::' | grep -v '^master$\\|^HEAD' "
     #$([ ! -z $1 ] && echo "$1" || echo "master")
     # git branch --no-merged
     do = ! git diff origin/`git branch | grep '*' | cut -c  3-`
     #comprare with remote counterpart
-    dm = diff master
-
     rm-merged = !  git branch --merged master | cut -c 3- | grep -v '^master' | xargs git branch -d
     # remove branches that are merged in master
+
 
     prp = ! git pull && git um && git back && git rp
     #Pulls master then checkout back the working branch
     rp = ! git r && git push -f
     r = rebase master
-    integrate = "! git prp && git checkout master && git merge --no-ff - "
+    pp = ! git pull && git push
+    #quicker when you are on master.
+    integrate = "! git prp && git checkout master && git merge --no-ff master "
 
     #integrate = "! git checkout master && git pull ; git checkout - && git r && git checkout master && git merge --no-ff - "
 
