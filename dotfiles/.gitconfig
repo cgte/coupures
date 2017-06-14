@@ -59,6 +59,8 @@
     #integrate = ! git prp && git checkout master && git merge -
     #&& git push master
 
+    lb = ! git branch -r --contains `git tag | sort -V -r | head -n 10` | grep -v '/master$' | sed -e 's:\\s*origin/::'
+
 
 [core]
 	# Don't paginate output by default
