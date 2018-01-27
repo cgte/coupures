@@ -27,6 +27,8 @@ let mapleader=","
 set incsearch           " search as characters are entered
 set hlsearch            " highlight matches
 
+autocmd FileType python set colorcolumn=72,80
+
 "" Synastics settings
 
 "set statusline+=%#warningmsg#
